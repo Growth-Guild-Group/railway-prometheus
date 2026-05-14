@@ -2,6 +2,7 @@ global:
   scrape_interval:     15s
   external_labels:
     monitor: 'railway-prom'
+    env: 'development'
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -9,35 +10,19 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'demo_prometheus_metrics'
-    scrape_interval: 5s
-    scheme: https
-    metrics_path: /metrics
-    static_configs:
-      - targets: ['railway-prometheus-production-24ce.up.railway.app']
-
   - job_name: 'postgres_metrics_collector'
-    scrape_interval: 1s
+    scrape_interval: 15s
     scheme: https
     metrics_path: /metrics
     static_configs:
       - targets: ['postgres-metrics-collector-staging.up.railway.app']
 
   - job_name: 'lucidserum-api'
+    scrape_interval: 15s
     metrics_path: /metrics
-    scheme: https
+    scheme: http
     authorization:
       type: Bearer
-      credentials: /tmp/lucidserum-metrics-token
+      credentials_file: /tmp/lucidserum-metrics-token
     static_configs:
-      - targets: ['lucidserum-api.railway.internal']
-      
-  # - job_name: 'postgres'
-  #   scrape_interval: 5s
-  #   static_configs:
-  #     - targets: ['localhost:9187']
-
-  # - job_name: 'mysql'
-  #   scrape_interval: 5s
-  #   static_configs:
-  #     - targets: ['localhost:9104']
+      - targets: ['lucidserum-api.railway.internal:3001']
