@@ -1,3 +1,4 @@
+#!/bin/sh
 set -eu
 : "${LUCIDSERUM_METRICS_TOKEN:?LUCIDSERUM_METRICS_TOKEN must be set in Railway}"
 umask 077
